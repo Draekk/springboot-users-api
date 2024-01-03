@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.draekk.springboot.springbootusersapi.models.Account;
 import com.draekk.springboot.springbootusersapi.models.Address;
 import com.draekk.springboot.springbootusersapi.models.User;
 import com.draekk.springboot.springbootusersapi.models.dtos.UserDto;
 
+@Repository("userRepository")
 public class UserRepositoryImpl implements IUserRepository {
 
     private List<User> users = new ArrayList<>(Arrays.asList(
