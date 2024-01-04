@@ -6,12 +6,15 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.draekk.springboot.springbootusersapi.models.User;
+import com.draekk.springboot.springbootusersapi.models.dtos.UserResponseDto;
 import com.draekk.springboot.springbootusersapi.services.IUserService;
 
 @RestController
@@ -22,14 +25,17 @@ public class AppController {
     @Qualifier("userService")
     private IUserService service;
 
-    @PostMapping("/adduser")
-    public User addUser(@RequestBody Map<String, String> json) {
-        service.save(json);
-
-        return service.findById(service.nextId() - 1);
+    @PostMapping("/user/add")
+    public UserResponseDto addUser(@RequestBody Map<String, String> json) {
+        return service.save(json);
     }
 
-    @GetMapping("/userlist")
+    @PutMapping("/user/edit/{id}")
+    public UserResponseDto editUser(@PathVariable int id) {
+        return service.edit(id);
+    }
+
+    @GetMapping("/user/list")
     public List<User> userlist() {
         return service.findAll();
     }

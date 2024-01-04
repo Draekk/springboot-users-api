@@ -1,5 +1,7 @@
 package com.draekk.springboot.springbootusersapi.models.dtos;
 
+import com.draekk.springboot.springbootusersapi.models.User;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class UserResponseDto {
 
-    private UserIndexDto user;
-    private String status;
+    private User user;
+    private int status;
     private String message;
 }

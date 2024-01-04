@@ -5,12 +5,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.draekk.springboot.springbootusersapi.models.Account;
 import com.draekk.springboot.springbootusersapi.models.Address;
 import com.draekk.springboot.springbootusersapi.models.User;
-import com.draekk.springboot.springbootusersapi.models.dtos.UserIndexDto;
+import com.draekk.springboot.springbootusersapi.models.dtos.UserResponseDto;
 import com.draekk.springboot.springbootusersapi.repositories.IUserRepository;
 import com.draekk.springboot.springbootusersapi.utils.PasswordEncrypterUtil;
 
@@ -22,7 +23,7 @@ public class UserServiceImpl implements IUserService {
     IUserRepository repository;
 
     @Override
-    public void save(Map<String, String> json) {
+    public UserResponseDto save(Map<String, String> json) {
         PasswordEncrypterUtil encrypter = new PasswordEncrypterUtil();
         User user = new User();
         user.setId(repository.nextId());
@@ -46,16 +47,19 @@ public class UserServiceImpl implements IUserService {
         user.setAddress(address);
 
         repository.save(user);
+
+        return response(findById(nextId() - 1), HttpStatus.CREATED.value());
     }
 
     @Override
-    public void edit(User user) {
-        repository.edit(createDto(user));
+    public UserResponseDto edit(Integer id) {
+        //repository.edit(createDto(user));
+        return null;
     }
 
     @Override
     public void delete(User user) {
-        repository.delete(createDto(user));
+        repository.delete(user);
     }
 
     @Override
@@ -89,11 +93,18 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserIndexDto createDto(User user) {
-        UserIndexDto userDto = new UserIndexDto();
-        userDto.setUser(user);
-        userDto.setIndex(repository.findAll().indexOf(user));
-        return userDto;
+    public UserResponseDto response(User user, int status) {
+        UserResponseDto response = new UserResponseDto();
+        response.setUser(user);
+        response.setStatus(status);
+        
+        if(status >= 200 && status < 300) {
+            response.setMessage("Transaction successful");
+        } else {
+            response.setMessage("Transaction error");
+        }
+
+        return response;
     }
 
 }

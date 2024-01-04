@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.draekk.springboot.springbootusersapi.models.User;
-import com.draekk.springboot.springbootusersapi.models.dtos.UserIndexDto;
+import com.draekk.springboot.springbootusersapi.models.dtos.UserResponseDto;
 
 public interface IUserService {
 
-    void save(Map<String, String> json);
-    void edit(User user);
+    UserResponseDto save(Map<String, String> json);
+    UserResponseDto edit(Integer id);
     void delete(User user);
     User findById(Long id);
     User findByDni(String dni);
@@ -17,5 +17,5 @@ public interface IUserService {
     List<User> findByName(String name);
     int count();
     Long nextId();
-    UserIndexDto createDto(User user);
+    UserResponseDto response(User user, int status);
 }
