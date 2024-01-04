@@ -1,14 +1,18 @@
 package com.draekk.springboot.springbootusersapi.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.draekk.springboot.springbootusersapi.models.Account;
+import com.draekk.springboot.springbootusersapi.models.Address;
 import com.draekk.springboot.springbootusersapi.models.User;
-import com.draekk.springboot.springbootusersapi.models.dtos.UserDto;
+import com.draekk.springboot.springbootusersapi.models.dtos.UserIndexDto;
 import com.draekk.springboot.springbootusersapi.repositories.IUserRepository;
+import com.draekk.springboot.springbootusersapi.utils.PasswordEncrypterUtil;
 
 @Service("userService")
 public class UserServiceImpl implements IUserService {
@@ -18,7 +22,29 @@ public class UserServiceImpl implements IUserService {
     IUserRepository repository;
 
     @Override
-    public void save(User user) {
+    public void save(Map<String, String> json) {
+        PasswordEncrypterUtil encrypter = new PasswordEncrypterUtil();
+        User user = new User();
+        user.setId(repository.nextId());
+        user.setDni(json.get("dni"));
+        user.setName(json.get("name"));
+        user.setLastname(json.get("lastname"));
+        user.setEmail(json.get("email"));
+        
+        Account account = new Account();
+        account.setId(user.getId());
+        account.setUsername(json.get("username"));
+        account.setPassword(encrypter.encrypt(json.get("password")));
+
+        Address address = new Address();
+        address.setId(user.getId());
+        address.setStreet(json.get("street"));
+        address.setCity(json.get("city"));
+        address.setCountry(json.get("country"));
+
+        user.setAccount(account);
+        user.setAddress(address);
+
         repository.save(user);
     }
 
@@ -63,8 +89,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserDto createDto(User user) {
-        UserDto userDto = new UserDto();
+    public UserIndexDto createDto(User user) {
+        UserIndexDto userDto = new UserIndexDto();
         userDto.setUser(user);
         userDto.setIndex(repository.findAll().indexOf(user));
         return userDto;

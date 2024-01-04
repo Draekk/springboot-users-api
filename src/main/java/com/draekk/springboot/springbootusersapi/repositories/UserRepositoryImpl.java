@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.draekk.springboot.springbootusersapi.models.Account;
 import com.draekk.springboot.springbootusersapi.models.Address;
 import com.draekk.springboot.springbootusersapi.models.User;
-import com.draekk.springboot.springbootusersapi.models.dtos.UserDto;
+import com.draekk.springboot.springbootusersapi.models.dtos.UserIndexDto;
 
 @Repository("userRepository")
 public class UserRepositoryImpl implements IUserRepository {
@@ -28,12 +28,12 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
-    public void edit(UserDto user) {
+    public void edit(UserIndexDto user) {
         users.set(user.getIndex(), user.getUser());
     }
 
     @Override
-    public void delete(UserDto user) {
+    public void delete(UserIndexDto user) {
         users.remove(user.getIndex());
     }
 

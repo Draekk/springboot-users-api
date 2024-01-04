@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserDto {
+public class UserIndexDto {
     private User user;
     private int index;
 }

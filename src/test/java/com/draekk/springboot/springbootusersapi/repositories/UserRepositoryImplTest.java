@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import com.draekk.springboot.springbootusersapi.models.Account;
 import com.draekk.springboot.springbootusersapi.models.Address;
 import com.draekk.springboot.springbootusersapi.models.User;
-import com.draekk.springboot.springbootusersapi.models.dtos.UserDto;
+import com.draekk.springboot.springbootusersapi.models.dtos.UserIndexDto;
 
 public class UserRepositoryImplTest {
 
@@ -41,7 +41,7 @@ public class UserRepositoryImplTest {
 
     @Test
     void testDelete() {
-        UserDto user = new UserDto();
+        UserIndexDto user = new UserIndexDto();
         user.setUser(repository.findById(5L));
         user.setIndex(repository.findAll().indexOf(user.getUser()));
         repository.delete(user);
@@ -50,7 +50,7 @@ public class UserRepositoryImplTest {
 
     @Test
     void testEdit() {
-        UserDto user = new UserDto();
+        UserIndexDto user = new UserIndexDto();
         user.setUser(repository.findById(3L));
         user.setIndex(repository.findAll().indexOf(user.getUser()));
         user.getUser().setName("Fernando");
