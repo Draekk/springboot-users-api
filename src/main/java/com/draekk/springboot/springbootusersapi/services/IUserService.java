@@ -9,7 +9,7 @@ import com.draekk.springboot.springbootusersapi.models.dtos.UserResponseDto;
 public interface IUserService {
 
     UserResponseDto save(Map<String, String> json);
-    UserResponseDto edit(Integer id);
+    UserResponseDto edit(Integer id, Map<String, String> json);
     void delete(User user);
     User findById(Long id);
     User findByDni(String dni);

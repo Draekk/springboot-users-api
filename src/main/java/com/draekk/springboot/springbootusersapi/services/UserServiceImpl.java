@@ -52,9 +52,48 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserResponseDto edit(Integer id) {
-        //repository.edit(createDto(user));
-        return null;
+    public UserResponseDto edit(Integer id, Map<String, String> json) {
+        User user = repository.findById(id.longValue());
+        if(user != null) {
+            json.forEach((key, value) -> {
+                if(value != null) {
+                    switch(key) {
+                        case "dni":
+                            user.setDni(value);
+                            break;
+                        case "name":
+                            user.setName(value);
+                            break;
+                        case "lastname":
+                            user.setLastname(value);
+                            break;
+                        case "email":
+                            user.setEmail(value);
+                            break;
+                        case "username":
+                            user.getAccount().setUsername(value);
+                            break;
+                        case "password":
+                            PasswordEncrypterUtil encrypter = new PasswordEncrypterUtil();
+                            user.getAccount().setPassword(encrypter.encrypt(value));
+                            break;
+                        case "street":
+                            user.getAddress().setStreet(value);
+                            break;
+                        case "city":
+                            user.getAddress().setCity(value);
+                            break;
+                        case "country":
+                            user.getAddress().setCountry(value);
+                            break;
+                    }
+                }
+            });
+            repository.edit(user);
+            
+            return response(findById(user.getId()), HttpStatus.ACCEPTED.value());
+        }
+        return response(user, HttpStatus.NOT_FOUND.value());
     }
 
     @Override

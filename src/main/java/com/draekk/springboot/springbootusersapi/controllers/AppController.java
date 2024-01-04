@@ -31,8 +31,8 @@ public class AppController {
     }
 
     @PutMapping("/user/edit/{id}")
-    public UserResponseDto editUser(@PathVariable int id) {
-        return service.edit(id);
+    public UserResponseDto editUser(@PathVariable int id, @RequestBody Map<String, String> json) {
+        return service.edit(id, json);
     }
 
     @GetMapping("/user/list")
