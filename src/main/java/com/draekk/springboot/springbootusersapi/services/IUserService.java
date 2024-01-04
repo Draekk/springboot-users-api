@@ -4,13 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.draekk.springboot.springbootusersapi.models.User;
+import com.draekk.springboot.springbootusersapi.models.dtos.ResponseDto;
 import com.draekk.springboot.springbootusersapi.models.dtos.UserResponseDto;
 
 public interface IUserService {
 
     UserResponseDto save(Map<String, String> json);
     UserResponseDto edit(Integer id, Map<String, String> json);
-    void delete(User user);
+    ResponseDto delete(Integer id);
     User findById(Long id);
     User findByDni(String dni);
     List<User> findAll();

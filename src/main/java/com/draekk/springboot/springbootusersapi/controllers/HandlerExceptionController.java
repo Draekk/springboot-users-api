@@ -16,8 +16,9 @@ public class HandlerExceptionController {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> defaultHandlerException(Exception ex) {
         Error error = new Error();
+        error.setDate(new Date());
         error.setMessage(ex.getMessage());
-        error.setError(ex.getClass().getSimpleName());
+        error.setException(ex.getClass().getSimpleName());
         error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
@@ -27,7 +28,7 @@ public class HandlerExceptionController {
         Error error = new Error();
         error.setDate(new Date());
         error.setMessage(ex.getMessage());
-        error.setError(ex.getClass().getSimpleName());
+        error.setException(ex.getClass().getSimpleName());
         error.setStatus(HttpStatus.NOT_FOUND.value());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,29 +15,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.draekk.springboot.springbootusersapi.models.User;
+import com.draekk.springboot.springbootusersapi.models.dtos.ResponseDto;
 import com.draekk.springboot.springbootusersapi.models.dtos.UserResponseDto;
 import com.draekk.springboot.springbootusersapi.services.IUserService;
 
 @RestController
-@RequestMapping("/api")
-public class AppController {
+@RequestMapping("/api/user")
+public class UserController {
 
     @Autowired
     @Qualifier("userService")
     private IUserService service;
 
-    @PostMapping("/user/add")
+    @PostMapping("/add")
     public UserResponseDto addUser(@RequestBody Map<String, String> json) {
         return service.save(json);
     }
 
-    @PutMapping("/user/edit/{id}")
+    @PutMapping("/edit/{id}")
     public UserResponseDto editUser(@PathVariable int id, @RequestBody Map<String, String> json) {
         return service.edit(id, json);
     }
 
-    @GetMapping("/user/list")
+    @GetMapping("/list")
     public List<User> userlist() {
         return service.findAll();
+    }
+
+    @DeleteMapping("/destroy/{id}")
+    public ResponseDto userDestroy(@PathVariable int id) {
+        return service.delete(id);
     }
 }

@@ -10,7 +10,7 @@ import lombok.Setter;
 public class Error {
 
     private String message;
-    private String error;
+    private String exception;
     private Integer status;
     private Date date;
 }

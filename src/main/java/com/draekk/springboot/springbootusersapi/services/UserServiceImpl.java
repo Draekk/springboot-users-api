@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.draekk.springboot.springbootusersapi.models.Account;
 import com.draekk.springboot.springbootusersapi.models.Address;
 import com.draekk.springboot.springbootusersapi.models.User;
+import com.draekk.springboot.springbootusersapi.models.dtos.ResponseDto;
 import com.draekk.springboot.springbootusersapi.models.dtos.UserResponseDto;
 import com.draekk.springboot.springbootusersapi.repositories.IUserRepository;
 import com.draekk.springboot.springbootusersapi.utils.PasswordEncrypterUtil;
@@ -97,8 +98,14 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void delete(User user) {
-        repository.delete(user);
+    public ResponseDto delete(Integer id) {
+        User user = findById(id.longValue());
+
+        if(user != null) {
+            repository.delete(user);
+            return new ResponseDto("delete", HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase());
+        }
+        return new ResponseDto("delete", HttpStatus.NOT_FOUND.value(), "User not found");
     }
 
     @Override
