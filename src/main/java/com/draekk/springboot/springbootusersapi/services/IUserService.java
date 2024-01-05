@@ -18,5 +18,5 @@ public interface IUserService {
     List<User> findByName(String name);
     int count();
     Long nextId();
-    UserResponseDto response(User user, int status);
+    UserResponseDto response(User user, ResponseDto response);
 }

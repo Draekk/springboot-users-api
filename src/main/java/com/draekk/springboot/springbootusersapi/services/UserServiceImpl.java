@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import com.draekk.springboot.springbootusersapi.models.Account;
 import com.draekk.springboot.springbootusersapi.models.Address;
 import com.draekk.springboot.springbootusersapi.models.User;
+import com.draekk.springboot.springbootusersapi.models.dtos.AccountDto;
+import com.draekk.springboot.springbootusersapi.models.dtos.AddressDto;
 import com.draekk.springboot.springbootusersapi.models.dtos.ResponseDto;
+import com.draekk.springboot.springbootusersapi.models.dtos.UserDto;
 import com.draekk.springboot.springbootusersapi.models.dtos.UserResponseDto;
 import com.draekk.springboot.springbootusersapi.repositories.IRepository;
 import com.draekk.springboot.springbootusersapi.utils.PasswordEncrypterUtil;
@@ -49,7 +52,7 @@ public class UserServiceImpl implements IUserService {
 
         repository.save(user);
 
-        return response(findById(nextId() - 1), HttpStatus.CREATED.value());
+        return response(findById(nextId() - 1), new ResponseDto("save", HttpStatus.OK.value()));
     }
 
     @Override
@@ -92,9 +95,9 @@ public class UserServiceImpl implements IUserService {
             });
             repository.edit(user);
             
-            return response(findById(user.getId()), HttpStatus.ACCEPTED.value());
+            return response(findById(user.getId()), new ResponseDto("edit", HttpStatus.OK.value()));
         }
-        return response(user, HttpStatus.NOT_FOUND.value());
+        return response(user, new ResponseDto("edit", HttpStatus.NOT_FOUND.value(), "User not found"));
     }
 
     @Override
@@ -140,18 +143,16 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserResponseDto response(User user, int status) {
-        UserResponseDto response = new UserResponseDto();
-        response.setUser(user);
-        response.setStatus(status);
-        
-        if(status >= 200 && status < 300) {
-            response.setMessage("Transaction successful");
-        } else {
-            response.setMessage("Transaction error");
-        }
+    public UserResponseDto response(User user, ResponseDto response) {
+        UserResponseDto userResponse = new UserResponseDto();
+        UserDto userDto = new UserDto();
+        userDto.setUser(user);
+        userDto.setAccount(new AccountDto(user.getAccount()));
+        userDto.setAddress(new AddressDto(user.getAddress()));
+        userResponse.setUser(userDto);
+        userResponse.setResponse(response);
 
-        return response;
+        return userResponse;
     }
 
 }

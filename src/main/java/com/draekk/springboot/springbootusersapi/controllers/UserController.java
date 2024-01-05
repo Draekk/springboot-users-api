@@ -42,6 +42,12 @@ public class UserController {
         return service.findAll();
     }
 
+    @GetMapping("/find/{id}")
+    public User userFindById(@PathVariable Integer id) {
+        return service.findById(id.longValue());
+    }
+    
+
     @DeleteMapping("/destroy/{id}")
     public ResponseDto userDestroy(@PathVariable int id) {
         return service.delete(id);

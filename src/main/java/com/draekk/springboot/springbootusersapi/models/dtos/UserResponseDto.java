@@ -1,15 +1,23 @@
 package com.draekk.springboot.springbootusersapi.models.dtos;
 
-import com.draekk.springboot.springbootusersapi.models.User;
-
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class UserResponseDto {
 
-    private User user;
-    private int status;
-    private String message;
+    private UserDto user;
+    private ResponseDto response;
+
+    public ResponseDto getResponse() {
+        return response;
+    }
+
+    public void setResponse(ResponseDto response) {
+        this.response = response;
+    }
+
+    public UserDto getUser() {
+        return user;
+    }
+
+    public void setUser(UserDto user) {
+        this.user = user;
+    }
 }
