@@ -13,7 +13,7 @@ import com.draekk.springboot.springbootusersapi.models.Address;
 import com.draekk.springboot.springbootusersapi.models.User;
 import com.draekk.springboot.springbootusersapi.models.dtos.ResponseDto;
 import com.draekk.springboot.springbootusersapi.models.dtos.UserResponseDto;
-import com.draekk.springboot.springbootusersapi.repositories.IUserRepository;
+import com.draekk.springboot.springbootusersapi.repositories.IRepository;
 import com.draekk.springboot.springbootusersapi.utils.PasswordEncrypterUtil;
 
 @Service("userService")
@@ -21,7 +21,7 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     @Qualifier("userRepository")
-    IUserRepository repository;
+    IRepository<User> repository;
 
     @Override
     public UserResponseDto save(Map<String, String> json) {
@@ -54,7 +54,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UserResponseDto edit(Integer id, Map<String, String> json) {
-        User user = repository.findById(id.longValue());
+        User user = (User)repository.findById(id.longValue());
         if(user != null) {
             json.forEach((key, value) -> {
                 if(value != null) {
@@ -115,17 +115,18 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public User findByDni(String dni) {
-        return repository.findByDni(dni);
+        return repository.findByStr(dni);
     }
 
     @Override
     public List<User> findAll() {
-        return repository.findAll();
+        List<User> users = (List<User>)repository.findAll();
+        return users;
     }
 
     @Override
     public List<User> findByName(String name) {
-        return repository.findByName(name);
+        return repository.findByStrList(name);
     }
 
     @Override

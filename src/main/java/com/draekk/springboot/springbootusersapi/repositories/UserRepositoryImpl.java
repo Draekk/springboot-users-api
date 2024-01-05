@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.draekk.springboot.springbootusersapi.models.User;
 
 @Repository("userRepository")
-public class UserRepositoryImpl implements IUserRepository {
+public class UserRepositoryImpl implements IRepository<User> {
 
     // private List<User> users = new ArrayList<>(Arrays.asList(
     //     new User(1L, "311513-2", "Gever", "Rodríguez", new Account(1L, "drakkseid", "THEHELL9000."), "rodriver1992@gmail.com", new Address(1L, "Jehova Yireh 1161", "Curacaví", "Chile")),
@@ -49,9 +49,9 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
-    public User findByDni(String dni) {
+    public User findByStr(String str) {
         for(User user : users) {
-            if(user.getDni().equals(dni)) {
+            if(user.getDni().equals(str)) {
                 return user;
             }
         }
@@ -64,10 +64,10 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
-    public List<User> findByName(String name) {
+    public List<User> findByStrList(String str) {
         List<User> usersByName = new ArrayList<>();
         for(User user : users) {
-            if(user.getName().contains(name)){
+            if(user.getName().contains(str)){
                 usersByName.add(user);
             }
         }

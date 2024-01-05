@@ -16,9 +16,9 @@ public class UserRepositoryImplTest {
     private UserRepositoryImpl repository = new UserRepositoryImpl();
 
     @Test
-    void testFindByName() {
+    void testFindByStrList() {
 
-        List<User> usersByName = repository.findByName("And");
+        List<User> usersByName = repository.findByStrList("And");
         
         for (User user : usersByName) {
             System.out.println(user.getName());
@@ -27,8 +27,8 @@ public class UserRepositoryImplTest {
     }
 
     @Test
-    void testFindByDni() {
-        User user = repository.findByDni("237624-1");
+    void testFindByStr() {
+        User user = repository.findByStr("237624-1");
         assertTrue(user.getDni().equals("237624-1"));
     }
 
