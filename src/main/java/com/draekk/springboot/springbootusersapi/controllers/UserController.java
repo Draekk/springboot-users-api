@@ -42,11 +42,20 @@ public class UserController {
         return service.findAll();
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/find/id/{id}")
     public User userFindById(@PathVariable Integer id) {
         return service.findById(id.longValue());
     }
     
+    @GetMapping("/find/dni")
+    public User userFindByDni(@RequestBody Map<String, String> json) {
+        return service.findByDni(json.get("dni"));
+    }
+
+    @GetMapping("/find/name")
+    public List<User> userFindByName(@RequestBody Map<String, String> json) {
+        return service.findByName(json.get("name"));
+    }
 
     @DeleteMapping("/destroy/{id}")
     public ResponseDto userDestroy(@PathVariable int id) {

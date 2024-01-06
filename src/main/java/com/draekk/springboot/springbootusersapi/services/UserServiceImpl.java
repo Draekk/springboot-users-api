@@ -31,21 +31,21 @@ public class UserServiceImpl implements IUserService {
         PasswordEncrypterUtil encrypter = new PasswordEncrypterUtil();
         User user = new User();
         user.setId(repository.nextId());
-        user.setDni(json.get("dni"));
-        user.setName(json.get("name"));
-        user.setLastname(json.get("lastname"));
-        user.setEmail(json.get("email"));
+        user.setDni(json.get("dni").toLowerCase());
+        user.setName(json.get("name").toLowerCase());
+        user.setLastname(json.get("lastname").toLowerCase());
+        user.setEmail(json.get("email").toLowerCase());
         
         Account account = new Account();
         account.setId(user.getId());
-        account.setUsername(json.get("username"));
+        account.setUsername(json.get("username").toLowerCase());
         account.setPassword(encrypter.encrypt(json.get("password")));
 
         Address address = new Address();
         address.setId(user.getId());
-        address.setStreet(json.get("street"));
-        address.setCity(json.get("city"));
-        address.setCountry(json.get("country"));
+        address.setStreet(json.get("street").toLowerCase());
+        address.setCity(json.get("city").toLowerCase());
+        address.setCountry(json.get("country").toLowerCase());
 
         user.setAccount(account);
         user.setAddress(address);
@@ -63,32 +63,32 @@ public class UserServiceImpl implements IUserService {
                 if(value != null) {
                     switch(key) {
                         case "dni":
-                            user.setDni(value);
+                            user.setDni(value.toLowerCase());
                             break;
                         case "name":
-                            user.setName(value);
+                            user.setName(value.toLowerCase());
                             break;
                         case "lastname":
-                            user.setLastname(value);
+                            user.setLastname(value.toLowerCase());
                             break;
                         case "email":
-                            user.setEmail(value);
+                            user.setEmail(value.toLowerCase());
                             break;
                         case "username":
-                            user.getAccount().setUsername(value);
+                            user.getAccount().setUsername(value.toLowerCase());
                             break;
                         case "password":
                             PasswordEncrypterUtil encrypter = new PasswordEncrypterUtil();
                             user.getAccount().setPassword(encrypter.encrypt(value));
                             break;
                         case "street":
-                            user.getAddress().setStreet(value);
+                            user.getAddress().setStreet(value.toLowerCase());
                             break;
                         case "city":
-                            user.getAddress().setCity(value);
+                            user.getAddress().setCity(value.toLowerCase());
                             break;
                         case "country":
-                            user.getAddress().setCountry(value);
+                            user.getAddress().setCountry(value.toLowerCase());
                             break;
                     }
                 }
@@ -118,18 +118,18 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public User findByDni(String dni) {
-        return repository.findByStr(dni);
+        return repository.findByStr(dni.toLowerCase());
     }
 
     @Override
     public List<User> findAll() {
-        List<User> users = (List<User>)repository.findAll();
+        List<User> users = repository.findAll();
         return users;
     }
 
     @Override
     public List<User> findByName(String name) {
-        return repository.findByStrList(name);
+        return repository.findByStrList(name.toLowerCase());
     }
 
     @Override
